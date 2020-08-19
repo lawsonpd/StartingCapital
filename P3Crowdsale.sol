@@ -4,9 +4,9 @@ import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v2.5
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v2.5.0/contracts/crowdsale/emission/MintedCrowdsale.sol";
 import "./P3TokenMintable.sol";
 
-contract TokenizedSavingsAccount is Crowdsale, MintedCrowdsale {
+contract StartingCapital is Crowdsale, MintedCrowdsale {
     
-    constructor (uint rate, address payable wallet, SavingsAccount token) 
+    constructor (uint rate, address payable wallet, Capital token) 
         Crowdsale(rate, wallet, token)
         public
         {
@@ -15,21 +15,21 @@ contract TokenizedSavingsAccount is Crowdsale, MintedCrowdsale {
     
 }
 
-contract SavingsTokenSaleDeployer {
+contract CapitalTokenSaleDeployer {
     
-    address public tsa_sale_address;
+    address public sct_sale_address;
     address public token_address;
     
     constructor (string memory name, string memory symbol, 
         address payable wallet) public {
             
-            SavingsAccount token = new SavingsAccount(name, symbol);
+            Capital token = new Capital(name, symbol, 100);
             token_address = address(token);
             
-            TokenizedSavingsAccount tsa_sale = new TokenizedSavingsAccount(1, wallet, token); //1 token = 1 wei
-            tsa_sale_address = address(tsa_sale);
+            StartingCapital sct_sale = new StartingCapital(1000000000000000000, wallet, token); //1 token = 1 eth
+            sct_sale_address = address(sct_sale);
             
-            token.addMinter(tsa_sale_address);
+            token.addMinter(sct_sale_address);
             token.renounceMinter();
             
         }
