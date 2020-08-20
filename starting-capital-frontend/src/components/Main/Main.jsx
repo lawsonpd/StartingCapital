@@ -1,15 +1,19 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Container } from '@material-ui/core';
+import Contract from '../Contract/Contract';
 //import { Test } from './Main.styles';
 
 class Main extends PureComponent { 
   constructor(props) {
     super(props);
-
     this.state = {
       hasError: false,
     };
+  }
+
+  componentDidMount(){
+   
   }
 
   render () {
@@ -19,6 +23,7 @@ class Main extends PureComponent {
     return (
       <Container maxWidth="md" className="app-container">
         Possible description explaining what this app is about and some instructions?
+        <Contract />
       </Container>
     );
   }
