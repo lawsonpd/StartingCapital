@@ -24,8 +24,7 @@ class Contract extends PureComponent {
 
   setBalance(){
     this.web3.bal().then(bal => {
-      console.log(bal)
-      this.setState({ balance : bal })
+      this.setState({ balance : bal });
     })
   }
 
@@ -35,7 +34,7 @@ class Contract extends PureComponent {
     }
     return (
       <div className="ContractWrapper">
-        Balance : { this.state.balance }
+        {/* Balance : { this.state.balance } */}
       </div>
     );
   }

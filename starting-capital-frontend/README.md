@@ -2,6 +2,18 @@
 
 ## Getting started
 
+## Keys
+
+Create a keys.js file in this folder to add your keys. This file is ignored and not committed so your information will not be on github.
+Add the content below with your infura url and contract address inside the quotes. This will automatically create a web3 instance with this information
+
+```
+export default keys = {
+    rpcUrl : '',
+    address : ''
+}
+```
+
 ### Commands
 *you must have node installed bed be able to run these commands
 
