@@ -10,7 +10,8 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.3",
-    "web3": "^1.2.11"
+    "web3": "^1.2.11",
+    "web3-eth-contract": "^1.2.11"
   },
   "scripts": {
     "start": "react-scripts start",
