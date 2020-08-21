@@ -21,3 +21,10 @@ Harold is tasked with hiring a team who can help him build the essential smart c
 * cETH Address: 0x4ddc2d193948926d02f9b1fe9e1daa0718270ed5
 * DAI ERC20 Address: 0xc4375b7de8af5a38a93548eb8453a498222c4ff2
 * COMP ERC20 Address: 0xc00e94cb662c3520282e6f5717214004a7f26888
+
+
+## Process
+CapitalTokenSaleDeployer (3 arguments)
+Grab sct_sale_address from contract, use it for At Address, deploy Starting Capital
+Use 1 for value box and wei to get 1 token
+grab token address from token_address to add token to metamask
