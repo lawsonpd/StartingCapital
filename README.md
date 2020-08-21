@@ -24,7 +24,7 @@ Harold is tasked with hiring a team who can help him build the essential smart c
 
 
 ## Process
-CapitalTokenSaleDeployer (3 arguments)
-Grab sct_sale_address from contract, use it for At Address, deploy Starting Capital
-Use 1 for value box and wei to get 1 token
-grab token address from token_address to add token to metamask
+* CapitalTokenSaleDeployer (3 arguments)
+* Grab sct_sale_address from contract, use it for At Address, deploy Starting Capital
+* Use 1 for value box and wei to get 1 token
+* Grab token address from token_address to add token to metamask
