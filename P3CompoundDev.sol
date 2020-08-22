@@ -1,8 +1,5 @@
 pragma solidity ^0.5.12;
 
-import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v2.5.0/contracts/token/ERC20/ERC20.sol";
-import "https://github.com/compound-finance/compound-protocol/blob/master/contracts/CErc20.sol";
-
 interface Erc20 {
     function approve(address, uint256) external returns (bool);
 
@@ -20,6 +17,14 @@ interface CErc20 {
     function redeem(uint) external returns (uint);
 
     function redeemUnderlying(uint) external returns (uint);
+    
+    function borrow(uint256) external returns (uint256);
+
+    function borrowRatePerBlock() external view returns (uint256);
+
+    function borrowBalanceCurrent(address) external returns (uint256);
+
+    function repayBorrow(uint256) external returns (uint256);
 }
 
 
@@ -33,6 +38,12 @@ interface CEth {
     function redeem(uint) external returns (uint);
 
     function redeemUnderlying(uint) external returns (uint);
+    
+    function borrow(uint256) external returns (uint256);
+
+    function repayBorrow() external payable;
+
+    function borrowBalanceCurrent(address) external returns (uint256);
 }
 
 
