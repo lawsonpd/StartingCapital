@@ -16,7 +16,7 @@ Harold is tasked with hiring a team who can help him build the essential smart c
 * Transfer DAI to team wallet
 
 ## Important Addresses and Contract Addresses
-* Harold's Team Address (Receives DAI to fund business): 
+* Harold's Address (Deploys Contract and Receives USDC): 0xf7171695A9B0B9E01423420F53419D36479515cf
 * Crowdsale Contract Deployment Address: 
 * cETH Address: 0x4ddc2d193948926d02f9b1fe9e1daa0718270ed5
 * DAI ERC20 Address: 0xc4375b7de8af5a38a93548eb8453a498222c4ff2
