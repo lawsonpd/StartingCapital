@@ -18,13 +18,12 @@ Harold is tasked with hiring a team who can help him build the essential smart c
 ## Important Addresses and Contract Addresses
 * Harold's Address (Deploys Contract and Receives USDC): 0xf7171695A9B0B9E01423420F53419D36479515cf
 * Crowdsale Contract Deployment Address: 
-* cETH Address: 0x4ddc2d193948926d02f9b1fe9e1daa0718270ed5
-* DAI ERC20 Address: 0xc4375b7de8af5a38a93548eb8453a498222c4ff2
-* COMP ERC20 Address: 0xc00e94cb662c3520282e6f5717214004a7f26888
-
+* cETH Address: 0x41b5844f4680a8c38fbb695b7f9cfd1f64474a72
+* USDC ERC20 Address: 0xb7a4f3e9097c08da09517b5ab877f7a917224ede
+* COMP ERC20 Address: 0x61460874a7196d6a22d1ee4922473664b3e95270
 
 ## Process
 * CapitalTokenSaleDeployer (3 arguments)
 * Grab sct_sale_address from contract, use it for At Address, deploy Starting Capital
-* Use 1 for value box and wei to get 1 token
+* Use 1 for value box and ether to get 1 token
 * Grab token address from token_address to add token to metamask
