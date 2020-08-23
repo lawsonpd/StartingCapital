@@ -9,10 +9,12 @@ Add the content below with your infura url and contract address inside the quote
 The address that is in ther is the contract address that has been used for testing so far, but can be updated.
 
 ```
-export default keys = {
-    rpcUrl : '',
-    address : '0x40F4eff644694c818B56844AcaFb0D14E5bC6339' 
+const keys = {
+    rpcUrl : 'https://kovan.infura.io/v3/{YOUR KEY}',
+    address : '0x40F4eff644694c818B56844AcaFb0D14E5bC6339',
 }
+
+export default keys;
 ```
 
 ### Commands
