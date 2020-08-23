@@ -5,12 +5,13 @@
 ## Keys
 
 Create a keys.js file in this folder to add your keys. This file is ignored and not committed so your information will not be on github.
-Add the content below with your infura url and contract address inside the quotes. This will automatically create a web3 instance with this information
+Add the content below with your infura url and contract address inside the quotes. This will automatically create a web3 instance with this information.
+The address that is in ther is the contract address that has been used for testing so far, but can be updated.
 
 ```
 export default keys = {
     rpcUrl : '',
-    address : ''
+    address : '0x40F4eff644694c818B56844AcaFb0D14E5bC6339' 
 }
 ```
 
