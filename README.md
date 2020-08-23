@@ -21,6 +21,9 @@ Harold is tasked with hiring a team who can help him build the essential smart c
 * cETH Address: 0x41b5844f4680a8c38fbb695b7f9cfd1f64474a72
 * USDC ERC20 Address: 0xb7a4f3e9097c08da09517b5ab877f7a917224ede
 * COMP ERC20 Address: 0x61460874a7196d6a22d1ee4922473664b3e95270
+* Comptroller Address: 0x5eae89dc1c671724a672ff0630122ee834098657
+* Price Oracle Address: 
+* cUSDC Address: 0x4a92e71227d294f041bd82dd8f78591b75140d63
 
 ## Process
 * CapitalTokenSaleDeployer (3 arguments)
