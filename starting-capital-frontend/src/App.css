@@ -26,3 +26,23 @@ body {
 .buy {
     margin-top: 10px;
 }
+
+.form-input {
+    width: 100%;
+    margin-top: 15px;
+    margin-right: 10px
+}
+
+.type-form-select {
+    width: 20%;
+    margin-left: 10px;
+}
+
+.type-form-select{
+    margin-left: 10px !important;   
+}
+
+#outlined-address-field{
+    width: 80% !important;
+}
+
