@@ -22,7 +22,7 @@ Harold is tasked with hiring a team who can help him build the essential smart c
 * USDC ERC20 Address: 0xb7a4f3e9097c08da09517b5ab877f7a917224ede
 * COMP ERC20 Address: 0x61460874a7196d6a22d1ee4922473664b3e95270
 * Comptroller Address: 0x5eae89dc1c671724a672ff0630122ee834098657
-* Price Oracle Address: 
+* Price Oracle Address: 0xbBdE93962Ca9fe39537eeA7380550ca6845F8db7
 * cUSDC Address: 0x4a92e71227d294f041bd82dd8f78591b75140d63
 
 ## Process
