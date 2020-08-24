@@ -71,7 +71,7 @@ class Contract extends PureComponent {
   handleAmountType() {
     if (this.state.buy.type === 'ether') {
       let buy = { ...this.state.buy }
-      let wei = Web3.utils.toWei(this.state.buy.amount, 'ether');
+      let wei = Web3.utils.toWei(this.state.buy.amount.toString(), 'ether');
       buy.amount = wei;
       return buy;
     }
