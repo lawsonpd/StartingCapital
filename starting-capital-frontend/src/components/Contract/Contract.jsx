@@ -93,7 +93,7 @@ class Contract extends PureComponent {
             gas: Web3.utils.toHex(3000000), // customizable by user during MetaMask confirmation.
             value: Web3.utils.toHex(request.amount), // Only required to send ether to the recipient from the initiating external account.
             chainId: 3,
-            data: "0xec8ac4d8000000000000000000000000cea08dd51f6d5d0ab3004fd534e2d24a5f566bd4" //spefic data hex so meta mask knows this is for buying tokens
+            data: `0xec8ac4d8000000000000000000000000${request.address.replace('0x', '')}` //spefic data hex so meta mask knows this is for buying tokens
           }
         ]
       }).then(
