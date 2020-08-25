@@ -1,7 +1,9 @@
 # StartingCapital
 
 ## Summary
-Harold is tasked with hiring a team who can help him build the essential smart contracts to host a token sale for his new business. However, he does not plan to use all the proceeds from the sale to fund development. He has recently heard of DeFi on top of Ethereum and has heard about how people use protocols to collateralize, borrow, lend, and make payments. Harold would like to raise 100 Ether and with that Ether lend it out so it continually earns interest while borrowing only 10% of the dollar value of 100 Ether. With that 10% he knows he can fund the integral parts of his startups business over the next 6 months. While the debt is held it is assumed the interest rate received from lending the Ether will outweigh the interest payments on the DAI, effectively growing the amount of Ether in the pool. When Harold and his team have built their product and have revenue they will pay back the debt and return the crowdsale depositors Ether back with interest accrued from the pool. The team will also receive payments in $COMP, compound.finance native governance token. This token can be converted into Ether to pay for gas costs associated with returning investors investments.
+Harold would like to raise 10 Ether and with that Ether lend it out so it continually earns interest while borrowing only 10% of the dollar value of 10 Ether. With that amount (1Ether), he knows he can fund the integral parts of his startup business over the next 12 months. While the debt is held, it is assumed the interest rate received from lending the Ether will outweigh the interest payments on the USDC, effectively growing the amount of Ether in the pool. When Harold and his team have built their product and have sufficient revenue they will pay back the debt and return Ether back to the Crowdsale depositors with interest accrued from the pool. The team will also receive payments in $COMP, a compound.finance native governance token generated as a result of the activity of borrowing and lending on the compound.finance debt-swap platform. This token can be converted into Ether to pay for gas costs associated with returning the investors’ investments.
+Essentially, on the compound.finance platform, Harold’s team is able to use 10 Ether raised from the Crowdsale to mint cETH which earns a rate of 0.58% APR.  The team then uses the minted cETH as collateral to borrow 10% of the net dollar value in the form of USDC, a US Dollar stablecoin on Ethereum.  Since the USDC is borrowed, Harold is charged 2.14% APR.  Because the amount borrowed is only 10% of the amount of loaned Ether, there is a net spread of 0.4% added to the collateral pool per annum.  This compounded interest and the 10 Ether of principal is returned to the Crowdsale participants (investors) as ROI.  The 1 ETH worth of USDC that is borrowed from the pool of Crowdsale funds is used as operating capital by Harold’s team to generate earnings to repay the USDC debt.
+
 
 ## Requirements
 * Crowdsale Contract
@@ -10,10 +12,10 @@ Harold is tasked with hiring a team who can help him build the essential smart c
 * Compound Interaction Contract
 
 ## Inner Workings
-* Conduct Crowdsale (raise 100 Ether)
+* Conduct Crowdsale (raise 10 Ether)
 * Mint cETH using 100 Ether and Compound.finance
-* Borrow DAI agasint the minted cETH
-* Transfer DAI to team wallet
+* Borrow USDC agasint the minted cETH
+* Transfer USDC to team wallet
 
 ## Important Addresses and Contract Addresses
 * Harold's Address (Deploys Contract and Receives USDC): 0xf7171695A9B0B9E01423420F53419D36479515cf
