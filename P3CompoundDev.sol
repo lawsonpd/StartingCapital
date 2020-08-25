@@ -77,6 +77,7 @@ contract Compound {
     address comptrollerAddress = address(0x5eAe89DC1C671724A672ff0630122ee834098657);
     address priceOracleAddress = address(0xbBdE93962Ca9fe39537eeA7380550ca6845F8db7);
     address cUSDCAddress = address(0x4a92E71227D294F041BD82dd8f78591B75140d63);
+    address usdcAddress = address(0xb7a4F3E9097C08dA09517b5aB877F7a917224ede);
     
     constructor () 
     public
@@ -110,6 +111,9 @@ contract Compound {
         return true;
     }
 
+    /*
+        Redeem cETH for ETH
+    */
     function redeemCEth(
         uint256 amount,
         bool redeemType
@@ -204,21 +208,25 @@ contract Compound {
         return borrows;
     }
 
+    /*
+        Pay back USDC loan to Compound.
+    */
     function usdcRepayBorrow(
-        address _usdcAddress,
-        address _cusdcAddress,
         uint256 amount
     ) public returns (bool) {
-        Erc20 USDC = Erc20(_usdcAddress);
-        CErc20 cUSDC = CErc20(_cusdcAddress);
+        Erc20 USDC = Erc20(usdcAddress);
+        CErc20 cUSDC = CErc20(cUSDCAddress);
 
-        USDC.approve(_cusdcAddress, amount);
+        USDC.approve(cUSDCAddress, amount);
         uint256 error = cUSDC.repayBorrow(amount);
 
         require(error == 0, "CErc20.repayBorrow Error");
         return true;
     }
     
+    /*
+        Withdraw all ETH
+    */
     function withdrawETH() public returns (bool) {
         balance = address(this).balance;
         owner.transfer(balance);
