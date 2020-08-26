@@ -10,6 +10,7 @@ Essentially, on the compound.finance platform, Harold’s team is able to use 10
 * Deployment Contract
 * ERC20, ERC20 Detailed, ERC20 Mintable Contracts
 * Compound Interaction Contract
+* Ether Distribution Contract
 
 ## Inner Workings
 * Conduct Crowdsale (raise 10 Ether)
@@ -43,6 +44,7 @@ Essentially, on the compound.finance platform, Harold’s team is able to use 10
 ## Etherscan Process
 * Crowdsale Participant: https://kovan.etherscan.io/tx/0xd9d7ccaac3dc044ba2c3b80b4f22b998259db386b96dec446d10a36988b55614
 * Crowdsale Participant: https://kovan.etherscan.io/tx/0x79a8ed4c02a47eea477b4e4a2b17302394acb7048cc874476d3209785fef83fb
+* Contract Deployer: https://kovan.etherscan.io/tx/0x75402e62c5fe5b482f8135399a537c5b401582ddf67d8b5fabf5182d8481babb
 * Starting Capital Contract: https://kovan.etherscan.io/address/0xe4dca3c6bd98676baee4837e57e8e8072717822d
 * Compound Activities Contract: https://kovan.etherscan.io/address/0x5e08afbbd92efea530ed96948c653ea9ad7eec87
 * SCP Token Holders: https://kovan.etherscan.io/token/0xe4dca3c6bd98676baee4837e57e8e8072717822d#balances
