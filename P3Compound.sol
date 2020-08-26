@@ -1,5 +1,7 @@
 pragma solidity ^0.5.12;
 
+import "github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v2.5.0/contracts/math/SafeMath.sol";
+
 
 interface Erc20 {
     function approve(address, uint256) external returns (bool);
@@ -18,6 +20,14 @@ interface CErc20 {
     function redeem(uint) external returns (uint);
 
     function redeemUnderlying(uint) external returns (uint);
+    
+    function borrow(uint256) external returns (uint256);
+
+    function borrowRatePerBlock() external view returns (uint256);
+
+    function borrowBalanceCurrent(address) external returns (uint256);
+
+    function repayBorrow(uint256) external returns (uint256);
 }
 
 
@@ -31,6 +41,12 @@ interface CEth {
     function redeem(uint) external returns (uint);
 
     function redeemUnderlying(uint) external returns (uint);
+    
+    function borrow(uint256) external returns (uint256);
+
+    function repayBorrow() external payable;
+
+    function borrowBalanceCurrent(address) external returns (uint256);
 }
 
 
@@ -57,6 +73,12 @@ contract Compound {
     address payable private owner;
     uint256 balance;
     
+    address cEtherAddress = address(0x41B5844f4680a8C38fBb695b7F9CFd1F64474a72);
+    address comptrollerAddress = address(0x5eAe89DC1C671724A672ff0630122ee834098657);
+    address priceOracleAddress = address(0xbBdE93962Ca9fe39537eeA7380550ca6845F8db7);
+    address cUSDCAddress = address(0x4a92E71227D294F041BD82dd8f78591B75140d63);
+    address usdcAddress = address(0xb7a4F3E9097C08dA09517b5aB877F7a917224ede);
+    
     constructor () 
     public
         {
@@ -65,13 +87,17 @@ contract Compound {
     
     event MyLog(string, uint256);
 
-    function supplyEthToCompound(address payable _cEtherContract)
+
+    /* 
+        Convert ETH to cETH
+    */
+    function supplyEthToCompound()
         public
         payable
         returns (bool)
     {
         // Create a reference to the corresponding cToken contract
-        CEth cToken = CEth(_cEtherContract);
+        CEth cToken = CEth(cEtherAddress);
 
         // Amount of current exchange rate from cToken to underlying
         uint256 exchangeRateMantissa = cToken.exchangeRateCurrent();
@@ -85,14 +111,17 @@ contract Compound {
         return true;
     }
 
+    /*
+        Redeem cETH for ETH
+    */
     function redeemCEth(
         uint256 amount,
-        bool redeemType,
-        address _cEtherContract
+        bool redeemType
     ) public returns (bool) {
+        
         require (msg.sender == owner, "You must be owner to do redeem.");
         // Create a reference to the corresponding cToken contract
-        CEth cToken = CEth(_cEtherContract);
+        CEth cToken = CEth(cEtherAddress);
 
         // `amount` is scaled up by 1e18 to avoid decimals
 
@@ -116,7 +145,141 @@ contract Compound {
         return true;
     }
 
-    // This is needed to receive ETH when calling `redeemCEth`
+    /*
+        Borrow USDC using cETH
+    */
+    function borrowUSDC(
+    ) public payable returns (uint256) {
+        CEth cEth = CEth(cEtherAddress);
+        Comptroller comptroller = Comptroller(comptrollerAddress);
+        PriceOracle priceOracle = PriceOracle(priceOracleAddress);
+        CErc20 cUSDC = CErc20(cUSDCAddress);
+
+        // Supply ETH as collateral, get cETH in return
+        cEth.mint.value(msg.value)();
+
+        // Enter the ETH market so you can borrow another type of asset
+        address[] memory cTokens = new address[](1);
+        cTokens[0] = cEtherAddress;
+        uint256[] memory errors = comptroller.enterMarkets(cTokens);
+        if (errors[0] != 0) {
+            revert("Comptroller.enterMarkets failed.");
+        }
+
+        // Get my account's total liquidity value in Compound
+        (uint256 error, uint256 liquidity, uint256 shortfall) = comptroller
+            .getAccountLiquidity(address(this));
+        if (error != 0) {
+            revert("Comptroller.getAccountLiquidity failed.");
+        }
+        require(shortfall == 0, "account underwater");
+        require(liquidity > 0, "account has excess collateral");
+
+        // Get the collateral factor for our collateral
+        // (
+        //   bool isListed,
+        //   uint collateralFactorMantissa
+        // ) = comptroller.markets(_cEthAddress);
+        // emit MyLog('ETH Collateral Factor', collateralFactorMantissa);
+
+        // Get the amount of USDC added to your borrow each block
+        // uint borrowRateMantissa = cUSDC.borrowRatePerBlock();
+        // emit MyLog('Current USDC Borrow Rate', borrowRateMantissa);
+
+        // Get the USDC price in ETH from the Price Oracle,
+        // so we can find out the maximum amount of USDC we can borrow.
+        uint256 USDCPriceInWei = priceOracle.getUnderlyingPrice(cUSDCAddress);
+        uint256 maxBorrowUSDCInWei = liquidity / USDCPriceInWei;
+
+        // Borrowing near the max amount will result
+        // in your account being liquidated instantly
+        emit MyLog("Maximum USDC Borrow (borrow far less!)", maxBorrowUSDCInWei);
+
+        // Borrow USDC
+        uint256 numUSDCToBorrow = 400;
+
+        // Borrow USDC, check the USDC balance for this contract's address
+        cUSDC.borrow(numUSDCToBorrow * 1e6);
+
+        // Get the borrow balance
+        uint256 borrows = cUSDC.borrowBalanceCurrent(address(this));
+        emit MyLog("Current USDC borrow amount", borrows);
+
+        return borrows;
+    }
+
+    /*
+        Pay back USDC loan to Compound.
+    */
+    function usdcRepayBorrow(
+        uint256 amount
+    ) public returns (bool) {
+        Erc20 USDC = Erc20(usdcAddress);
+        CErc20 cUSDC = CErc20(cUSDCAddress);
+
+        USDC.approve(cUSDCAddress, amount);
+        uint256 error = cUSDC.repayBorrow(amount);
+
+        require(error == 0, "CErc20.repayBorrow Error");
+        return true;
+    }
+    
+    /*
+        Withdraw all ETH
+    */
+    function withdrawETH() public returns (bool) {
+        balance = address(this).balance;
+        owner.transfer(balance);
+    }
+
+    // Need this to receive ETH when `borrowEthExample` executes
     function() external payable {}
 }
 
+contract CrowdsaleGiveBack {
+    address payable crowdsale_one;
+    address payable crowdsale_two;
+    address payable crowdsale_three;
+    address payable crowdsale_four;
+    address payable crowdsale_five;
+    address payable crowdsale_six;
+    address payable crowdsale_seven;
+    address payable crowdsale_eight;
+    address payable crowdsale_nine;
+    address payable crowdsale_ten;
+    
+    constructor(address payable _one, address payable _two, address payable _three, 
+        address payable _four, address payable _five, address payable _six,
+        address payable _seven, address payable _eight, address payable _nine,
+        address payable _ten) public {
+            crowdsale_one = _one;
+            crowdsale_two = _two;
+            crowdsale_three = _three;
+            crowdsale_four = _four;
+            crowdsale_five = _five;
+            crowdsale_six = _six;
+            crowdsale_seven = _seven;
+            crowdsale_eight = _eight;
+            crowdsale_nine = _nine;
+            crowdsale_ten = _ten;
+    }
+
+    function distribute() public payable {
+        uint amount = msg.value / 10;
+        crowdsale_one.transfer(amount);
+        crowdsale_two.transfer(amount);
+        crowdsale_three.transfer(amount);
+        crowdsale_four.transfer(amount);
+        crowdsale_five.transfer(amount);
+        crowdsale_six.transfer(amount);
+        crowdsale_seven.transfer(amount);
+        crowdsale_eight.transfer(amount);
+        crowdsale_nine.transfer(amount);
+        crowdsale_ten.transfer(amount);
+        uint remainder = msg.value - amount * 10;
+        msg.sender.transfer(remainder);
+    }
+    function() external payable {
+        distribute();
+    }
+}
