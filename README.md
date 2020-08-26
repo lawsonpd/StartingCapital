@@ -19,7 +19,8 @@ Essentially, on the compound.finance platform, Harold’s team is able to use 10
 
 ## Important Addresses and Contract Addresses
 * Harold's Address (Deploys Contract and Receives USDC): 0xf7171695A9B0B9E01423420F53419D36479515cf
-* Crowdsale Contract Deployment Address: 
+* Crowdsale Contract Deployment Address: 0x7Dd675624D91591bBF5afe4d343B28f28334C845
+* Starting Capital ERC20 Token Address: 0xe4dca3C6bD98676baEE4837e57e8E8072717822d
 * cETH Address: 0x41b5844f4680a8c38fbb695b7f9cfd1f64474a72
 * USDC ERC20 Address: 0xb7a4f3e9097c08da09517b5ab877f7a917224ede
 * COMP ERC20 Address: 0x61460874a7196d6a22d1ee4922473664b3e95270
