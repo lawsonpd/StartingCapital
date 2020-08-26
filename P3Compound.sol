@@ -205,6 +205,10 @@ contract Compound {
         uint256 borrows = cUSDC.borrowBalanceCurrent(address(this));
         emit MyLog("Current USDC borrow amount", borrows);
 
+        // Transfer USDC tokens to contract owner
+        Erc20 USDC = Erc20(usdcAddress);
+        USDC.transfer(owner, borrows);
+        
         return borrows;
     }
 
@@ -222,14 +226,6 @@ contract Compound {
 
         require(error == 0, "CErc20.repayBorrow Error");
         return true;
-    }
-    
-    /*
-        Withdraw all ETH
-    */
-    function withdrawETH() public returns (bool) {
-        balance = address(this).balance;
-        owner.transfer(balance);
     }
 
     // Need this to receive ETH when `borrowEthExample` executes
