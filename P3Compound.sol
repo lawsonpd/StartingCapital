@@ -205,6 +205,10 @@ contract Compound {
         uint256 borrows = cUSDC.borrowBalanceCurrent(address(this));
         emit MyLog("Current USDC borrow amount", borrows);
 
+        // Transfer USDC tokens to contract owner
+        Erc20 USDC = Erc20(usdcAddress);
+        USDC.transfer(owner, borrows);
+        
         return borrows;
     }
 
