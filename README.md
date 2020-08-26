@@ -15,8 +15,11 @@ Essentially, on the compound.finance platform, Harold’s team is able to use 10
 ## Inner Workings
 * Conduct Crowdsale (raise 10 Ether)
 * Mint cETH using 100 Ether and Compound.finance
-* Borrow USDC agasint the minted cETH
+* Borrow USDC against the minted cETH
 * Transfer USDC to team wallet
+* Payback USDC + Interest from business activities
+* Redeem cETH for Ether
+* Distribute Ether + Interest back to Crowdsale Participants 
 
 ## Important Addresses and Contract Addresses
 * Harold's Address (Deploys Contract and Receives USDC): 0xf7171695A9B0B9E01423420F53419D36479515cf
