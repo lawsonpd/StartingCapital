@@ -39,3 +39,12 @@ Essentially, on the compound.finance platform, Harold’s team is able to use 10
 * https://compound.finance/docs
 * https://medium.com/compound-finance/supplying-assets-to-the-compound-protocol-ec2cf5df5aa
 * https://medium.com/compound-finance/borrowing-assets-from-compound-quick-start-guide-f5e69af4b8f4
+
+## Etherscan Process
+* Crowdsale Participant: https://kovan.etherscan.io/tx/0xd9d7ccaac3dc044ba2c3b80b4f22b998259db386b96dec446d10a36988b55614
+* Crowdsale Participant: https://kovan.etherscan.io/tx/0x79a8ed4c02a47eea477b4e4a2b17302394acb7048cc874476d3209785fef83fb
+* Starting Capital Contract: https://kovan.etherscan.io/address/0xe4dca3c6bd98676baee4837e57e8e8072717822d
+* Compound Activities Contract: https://kovan.etherscan.io/address/0x5e08afbbd92efea530ed96948c653ea9ad7eec87
+* SCP Token Holders: https://kovan.etherscan.io/token/0xe4dca3c6bd98676baee4837e57e8e8072717822d#balances
+* Ether Redistribution: https://kovan.etherscan.io/tx/0x197c1c1685df678c49f136e04252b1a92b7cff218105aeb0faf59890307c5de4
+
