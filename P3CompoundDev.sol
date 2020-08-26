@@ -73,6 +73,12 @@ contract Compound {
     address payable private owner;
     uint256 balance;
     
+    address cEtherAddress = address(0x41B5844f4680a8C38fBb695b7F9CFd1F64474a72);
+    address comptrollerAddress = address(0x5eAe89DC1C671724A672ff0630122ee834098657);
+    address priceOracleAddress = address(0xbBdE93962Ca9fe39537eeA7380550ca6845F8db7);
+    address cUSDCAddress = address(0x4a92E71227D294F041BD82dd8f78591B75140d63);
+    address usdcAddress = address(0xb7a4F3E9097C08dA09517b5aB877F7a917224ede);
+    
     constructor () 
     public
         {
@@ -81,13 +87,17 @@ contract Compound {
     
     event MyLog(string, uint256);
 
-    function supplyEthToCompound(address payable _cEtherContract)
+
+    /* 
+        Convert ETH to cETH
+    */
+    function supplyEthToCompound()
         public
         payable
         returns (bool)
     {
         // Create a reference to the corresponding cToken contract
-        CEth cToken = CEth(_cEtherContract);
+        CEth cToken = CEth(cEtherAddress);
 
         // Amount of current exchange rate from cToken to underlying
         uint256 exchangeRateMantissa = cToken.exchangeRateCurrent();
@@ -101,14 +111,17 @@ contract Compound {
         return true;
     }
 
+    /*
+        Redeem cETH for ETH
+    */
     function redeemCEth(
         uint256 amount,
-        bool redeemType,
-        address _cEtherContract
+        bool redeemType
     ) public returns (bool) {
+        
         require (msg.sender == owner, "You must be owner to do redeem.");
         // Create a reference to the corresponding cToken contract
-        CEth cToken = CEth(_cEtherContract);
+        CEth cToken = CEth(cEtherAddress);
 
         // `amount` is scaled up by 1e18 to avoid decimals
 
@@ -132,23 +145,22 @@ contract Compound {
         return true;
     }
 
-    function borrowErc20Example(
-        address payable _cEtherAddress,
-        address _comptrollerAddress,
-        address _priceOracleAddress,
-        address _cUSDCAddress
+    /*
+        Borrow USDC using cETH
+    */
+    function borrowUSDC(
     ) public payable returns (uint256) {
-        CEth cEth = CEth(_cEtherAddress);
-        Comptroller comptroller = Comptroller(_comptrollerAddress);
-        PriceOracle priceOracle = PriceOracle(_priceOracleAddress);
-        CErc20 cUSDC = CErc20(_cUSDCAddress);
+        CEth cEth = CEth(cEtherAddress);
+        Comptroller comptroller = Comptroller(comptrollerAddress);
+        PriceOracle priceOracle = PriceOracle(priceOracleAddress);
+        CErc20 cUSDC = CErc20(cUSDCAddress);
 
         // Supply ETH as collateral, get cETH in return
         cEth.mint.value(msg.value)();
 
         // Enter the ETH market so you can borrow another type of asset
         address[] memory cTokens = new address[](1);
-        cTokens[0] = _cEtherAddress;
+        cTokens[0] = cEtherAddress;
         uint256[] memory errors = comptroller.enterMarkets(cTokens);
         if (errors[0] != 0) {
             revert("Comptroller.enterMarkets failed.");
@@ -176,7 +188,7 @@ contract Compound {
 
         // Get the USDC price in ETH from the Price Oracle,
         // so we can find out the maximum amount of USDC we can borrow.
-        uint256 USDCPriceInWei = priceOracle.getUnderlyingPrice(_cUSDCAddress);
+        uint256 USDCPriceInWei = priceOracle.getUnderlyingPrice(cUSDCAddress);
         uint256 maxBorrowUSDCInWei = liquidity / USDCPriceInWei;
 
         // Borrowing near the max amount will result
@@ -196,91 +208,28 @@ contract Compound {
         return borrows;
     }
 
-    function myEthRepayBorrow(address _cEtherAddress, uint256 amount)
-        public
-        returns (bool)
-    {
-        CEth cEth = CEth(_cEtherAddress);
-        cEth.repayBorrow.value(amount)();
-        return true;
-    }
-
-    function myErc20RepayBorrow(
-        address _erc20Address,
-        address _cErc20Address,
+    /*
+        Pay back USDC loan to Compound.
+    */
+    function usdcRepayBorrow(
         uint256 amount
     ) public returns (bool) {
-        Erc20 USDC = Erc20(_erc20Address);
-        CErc20 cUSDC = CErc20(_cErc20Address);
+        Erc20 USDC = Erc20(usdcAddress);
+        CErc20 cUSDC = CErc20(cUSDCAddress);
 
-        USDC.approve(_cErc20Address, amount);
+        USDC.approve(cUSDCAddress, amount);
         uint256 error = cUSDC.repayBorrow(amount);
 
         require(error == 0, "CErc20.repayBorrow Error");
         return true;
     }
-
-    function borrowEthExample(
-        address payable _cEtherAddress,
-        address _comptrollerAddress,
-        address _cUSDCAddress,
-        address _USDCAddress,
-        uint256 _USDCToSupplyAsCollateral
-    ) public returns (uint) {
-        CEth cEth = CEth(_cEtherAddress);
-        Comptroller comptroller = Comptroller(_comptrollerAddress);
-        CErc20 cUSDC = CErc20(_cUSDCAddress);
-        Erc20 USDC = Erc20(_USDCAddress);
-
-        // Approve transfer of USDC
-        USDC.approve(_cUSDCAddress, _USDCToSupplyAsCollateral);
-
-        // Supply USDC as collateral, get cUSDC in return
-        uint256 error = cUSDC.mint(_USDCToSupplyAsCollateral);
-        require(error == 0, "CErc20.mint Error");
-
-        // Enter the USDC market so you can borrow another type of asset
-        address[] memory cTokens = new address[](1);
-        cTokens[0] = _cUSDCAddress;
-        uint256[] memory errors = comptroller.enterMarkets(cTokens);
-        if (errors[0] != 0) {
-            revert("Comptroller.enterMarkets failed.");
-        }
-
-        // Get my account's total liquidity value in Compound
-        (uint256 error2, uint256 liquidity, uint256 shortfall) = comptroller
-            .getAccountLiquidity(address(this));
-        if (error2 != 0) {
-            revert("Comptroller.getAccountLiquidity failed.");
-        }
-        require(shortfall == 0, "account underwater");
-        require(liquidity > 0, "account has excess collateral");
-
-        // Borrowing near the max amount will result
-        // in your account being liquidated instantly
-        emit MyLog("Maximum ETH Borrow (borrow far less!)", liquidity);
-
-        // Get the collateral factor for our collateral
-        // (
-        //   bool isListed,
-        //   uint collateralFactorMantissa
-        // ) = comptroller.markets(_cUSDCAddress);
-        // emit MyLog('USDC Collateral Factor', collateralFactorMantissa);
-
-        // Get the amount of ETH added to your borrow each block
-        // uint borrowRateMantissa = cEth.borrowRatePerBlock();
-        // emit MyLog('Current ETH Borrow Rate', borrowRateMantissa);
-
-        // Borrow a fixed amount of ETH below our maximum borrow amount
-        uint256 numWeiToBorrow = 20000000000000000; // 0.02 ETH
-
-        // Borrow USDC, check the USDC balance for this contract's address
-        cEth.borrow(numWeiToBorrow);
-
-        uint256 borrows = cEth.borrowBalanceCurrent(address(this));
-        emit MyLog("Current ETH borrow amount", borrows);
-
-        return borrows;
+    
+    /*
+        Withdraw all ETH
+    */
+    function withdrawETH() public returns (bool) {
+        balance = address(this).balance;
+        owner.transfer(balance);
     }
 
     // Need this to receive ETH when `borrowEthExample` executes
