@@ -32,3 +32,9 @@ Essentially, on the compound.finance platform, Harold’s team is able to use 10
 * Grab sct_sale_address from contract, use it for At Address, deploy Starting Capital
 * Use 1 for value box and ether to get 1 token
 * Grab token address from token_address to add token to metamask
+
+## Important Links
+* https://github.com/compound-developers
+* https://compound.finance/docs
+* https://medium.com/compound-finance/supplying-assets-to-the-compound-protocol-ec2cf5df5aa
+* https://medium.com/compound-finance/borrowing-assets-from-compound-quick-start-guide-f5e69af4b8f4
