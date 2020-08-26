@@ -223,14 +223,6 @@ contract Compound {
         require(error == 0, "CErc20.repayBorrow Error");
         return true;
     }
-    
-    /*
-        Withdraw all ETH
-    */
-    function withdrawETH() public returns (bool) {
-        balance = address(this).balance;
-        owner.transfer(balance);
-    }
 
     // Need this to receive ETH when `borrowEthExample` executes
     function() external payable {}
