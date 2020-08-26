@@ -14,7 +14,7 @@ Essentially, on the compound.finance platform, Harold’s team is able to use 10
 
 ## Inner Workings
 * Conduct Crowdsale (raise 10 Ether)
-* Mint cETH using 100 Ether and Compound.finance
+* Mint cETH using 10 Ether and Compound.finance
 * Borrow USDC against the minted cETH
 * Transfer USDC to team wallet
 * Payback USDC + Interest from business activities
@@ -53,3 +53,10 @@ Essentially, on the compound.finance platform, Harold’s team is able to use 10
 * SCP Token Holders: https://kovan.etherscan.io/token/0xe4dca3c6bd98676baee4837e57e8e8072717822d#balances
 * Ether Redistribution: https://kovan.etherscan.io/tx/0x197c1c1685df678c49f136e04252b1a92b7cff218105aeb0faf59890307c5de4
 
+## Future Roadmap
+* Integrate our own frontend for the compound and redistribution activities
+* Automate the redistribution with token balance mapping
+* Fix the remaining cETH balance hiccup
+* Frontend on IPFS
+* Add in function to convert usdc to Dai then lend out Dai for additional spread for investors (600 usdc borrow, 400 to business, 200 usdc->200 Dai, lend out 200 dai)
+* Use layer 2 scaling solution (OMG Network) to save gas and get similar security as Ethereum mainnet
