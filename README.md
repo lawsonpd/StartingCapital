@@ -10,12 +10,16 @@ Essentially, on the compound.finance platform, Harold’s team is able to use 10
 * Deployment Contract
 * ERC20, ERC20 Detailed, ERC20 Mintable Contracts
 * Compound Interaction Contract
+* Ether Distribution Contract
 
 ## Inner Workings
 * Conduct Crowdsale (raise 10 Ether)
-* Mint cETH using 100 Ether and Compound.finance
-* Borrow USDC agasint the minted cETH
+* Mint cETH using 10 Ether and Compound.finance
+* Borrow USDC against the minted cETH
 * Transfer USDC to team wallet
+* Payback USDC + Interest from business activities
+* Redeem cETH for Ether
+* Distribute Ether + Interest back to Crowdsale Participants 
 
 ## Important Addresses and Contract Addresses
 * Harold's Address (Deploys Contract and Receives USDC): 0xf7171695A9B0B9E01423420F53419D36479515cf
@@ -43,8 +47,16 @@ Essentially, on the compound.finance platform, Harold’s team is able to use 10
 ## Etherscan Process
 * Crowdsale Participant: https://kovan.etherscan.io/tx/0xd9d7ccaac3dc044ba2c3b80b4f22b998259db386b96dec446d10a36988b55614
 * Crowdsale Participant: https://kovan.etherscan.io/tx/0x79a8ed4c02a47eea477b4e4a2b17302394acb7048cc874476d3209785fef83fb
+* Contract Deployer: https://kovan.etherscan.io/tx/0x75402e62c5fe5b482f8135399a537c5b401582ddf67d8b5fabf5182d8481babb
 * Starting Capital Contract: https://kovan.etherscan.io/address/0xe4dca3c6bd98676baee4837e57e8e8072717822d
 * Compound Activities Contract: https://kovan.etherscan.io/address/0x5e08afbbd92efea530ed96948c653ea9ad7eec87
 * SCP Token Holders: https://kovan.etherscan.io/token/0xe4dca3c6bd98676baee4837e57e8e8072717822d#balances
 * Ether Redistribution: https://kovan.etherscan.io/tx/0x197c1c1685df678c49f136e04252b1a92b7cff218105aeb0faf59890307c5de4
 
+## Future Roadmap
+* Integrate our own frontend for the compound and redistribution activities
+* Automate the redistribution with token balance mapping
+* Fix the remaining cETH balance hiccup
+* Frontend on IPFS
+* Add in function to convert usdc to Dai then lend out Dai for additional spread for investors (600 usdc borrow, 400 to business, 200 usdc->200 Dai, lend out 200 dai)
+* Use layer 2 scaling solution (OMG Network) to save gas and get similar security as Ethereum mainnet
