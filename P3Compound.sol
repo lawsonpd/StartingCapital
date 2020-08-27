@@ -78,6 +78,7 @@ contract Compound {
     address priceOracleAddress = address(0xbBdE93962Ca9fe39537eeA7380550ca6845F8db7);
     address cUSDCAddress = address(0x4a92E71227D294F041BD82dd8f78591B75140d63);
     address usdcAddress = address(0xb7a4F3E9097C08dA09517b5aB877F7a917224ede);
+    address COMPAddress = address(0x61460874a7196d6a22d1ee4922473664b3e95270);
     
     constructor () 
     public
@@ -212,6 +213,17 @@ contract Compound {
         return borrows;
     }
 
+    function transferComp(
+        uint256 amount
+    ) public {
+        Erc20 COMP = Erc20(COMPAddress);
+        
+        // Approve COMP transfer
+        COMP.approve(COMPAddress, amount);
+        // Transfer COMP to owner
+        COMP.transfer(owner, amount);
+    }
+
     /*
         Pay back USDC loan to Compound.
     */
@@ -226,6 +238,12 @@ contract Compound {
 
         require(error == 0, "CErc20.repayBorrow Error");
         return true;
+
+        // Transfer COMP tokens to contract owner
+        Erc20 COMP = Erc20(COMPAddress);
+        COMP.transfer(owner, repay);
+        
+        return repay;
     }
 
     // Need this to receive ETH when `borrowEthExample` executes
